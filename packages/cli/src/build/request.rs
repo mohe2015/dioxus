@@ -3717,7 +3717,7 @@ impl BuildRequest {
             .target("web")
             .debug(keep_debug)
             .demangle(demangle)
-            .keep_debug(keep_debug)
+            .keep_debug(false)
             .keep_lld_sections(true)
             .out_name(self.executable_name())
             .out_dir(&bindgen_outdir)
