@@ -11,7 +11,7 @@ license = "MIT OR Apache-2.0"
 rust-version = "1.71.1"
 
 [dependencies]
-dioxus-desktop = { workspace = true }
+dioxus-desktop = { workspace = true, default-features = false }
 dioxus-lib = { workspace = true }
 dioxus-cli-config = { workspace = true }
 libc = "0.2.170"

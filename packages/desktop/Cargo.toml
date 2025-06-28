@@ -29,13 +29,10 @@ wry = { workspace = true, default-features = false, features = ["os-webview", "p
 futures-channel = { workspace = true }
 tokio = { workspace = true, features = [
   "sync",
-  "rt-multi-thread",
   "rt",
   "time",
   "macros",
-  "fs",
-  "io-util",
-], optional = true }
+] }
 infer = { workspace = true }
 dunce = { workspace = true }
 slab = { workspace = true }
@@ -93,7 +90,7 @@ lazy-js-bundle = { workspace = true }
 
 [features]
 default = ["tokio_runtime", "transparent", "devtools"]
-tokio_runtime = ["dep:tokio"]
+tokio_runtime = []
 fullscreen = ["wry/fullscreen"]
 devtools = ["wry/devtools", "dep:dioxus-devtools", "dioxus-signals"]
 transparent = ["wry/transparent"]

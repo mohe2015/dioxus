@@ -154,7 +154,7 @@ dioxus-web = { path = "packages/web", version = "0.7.0-alpha.2", default-feature
 dioxus-isrg = { path = "packages/isrg", version = "0.7.0-alpha.2" }
 dioxus-ssr = { path = "packages/ssr", version = "0.7.0-alpha.2", default-features = false }
 dioxus-desktop = { path = "packages/desktop", version = "0.7.0-alpha.2", default-features = false }
-dioxus-mobile = { path = "packages/mobile", version = "0.7.0-alpha.2" }
+dioxus-mobile = { path = "packages/mobile", version = "0.7.0-alpha.2", default-features = false }
 dioxus-interpreter-js = { path = "packages/interpreter", version = "0.7.0-alpha.2" }
 dioxus-liveview = { path = "packages/liveview", version = "0.7.0-alpha.2" }
 dioxus-autofmt = { path = "packages/autofmt", version = "0.7.0-alpha.2" }
