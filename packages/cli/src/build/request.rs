@@ -1722,7 +1722,7 @@ impl BuildRequest {
         if cfg!(target_os = "linux") {
             command_envs.push((
                 "PATH".to_string(),
-                "/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin".to_string(),
+                std::env::var("PATH").unwrap(),
             ));
         }
 
@@ -2253,7 +2253,7 @@ impl BuildRequest {
         if cfg!(target_os = "linux") {
             command_envs.push((
                 "PATH".to_string(),
-                "/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin".to_string(),
+                std::env::var("PATH").unwrap(),
             ));
         }
 
