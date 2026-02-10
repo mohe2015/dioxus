@@ -46,12 +46,11 @@ fn make_ws(tx: UnboundedSender<HotReloadMsg>, poll_interval: i32, reload: bool) 
     // The idea here being that the devserver is always located on the /_dioxus behind a proxy
     let location = web_sys::window().unwrap().location();
     let url = format!(
-        "{protocol}//{host}/_dioxus?build_id={build_id}",
+        "{protocol}//127.0.0.1:8080/_dioxus?build_id={build_id}",
         protocol = match location.protocol().unwrap() {
             prot if prot == "https:" => "wss:",
             _ => "ws:",
         },
-        host = location.host().unwrap(),
         build_id = dioxus_cli_config::build_id(),
     );
 
