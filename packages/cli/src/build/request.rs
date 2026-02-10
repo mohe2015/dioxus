@@ -4489,7 +4489,7 @@ impl BuildRequest {
 globalThis.__wasm_split_main_initSync = initSync;
 
 // Actually perform the load
-__wbg_init({{module_or_path: "/{}/{wasm_path}"}}).then((wasm) => {{
+__wbg_init({{module_or_path: "http://127.0.0.1:8080/{wasm_path}"}}).then((wasm) => {{
     // assign this module to be accessible globally
     globalThis.__dx_mainWasm = wasm;
     globalThis.__dx_mainInit = __wbg_init;
@@ -4501,7 +4501,6 @@ __wbg_init({{module_or_path: "/{}/{wasm_path}"}}).then((wasm) => {{
     }}
 }});
 "#,
-            self.base_path_or_default(),
         )?;
 
         Ok(())
@@ -5390,9 +5389,8 @@ __wbg_init({{module_or_path: "/{}/{wasm_path}"}}).then((wasm) => {{
         *html = html.replace(
             "</body",
             &format!(
-                r#"<script type="module" async src="/{}/{}"></script>
+                r#"<script type="module" async src="http://127.0.0.1:8080/{}"></script>
             </body"#,
-                self.base_path_or_default(),
                 self.bundled_js_path(assets)
             ),
         );

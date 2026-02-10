@@ -318,7 +318,7 @@
       protocol = "ws:";
     }
     let url =
-      protocol + "//" + window.location.host + "/_dioxus/build_status";
+      protocol + "//127.0.0.1:8080/_dioxus/build_status";
     let ws = new WebSocket(url);
 
     // WS Message Handling
