@@ -569,7 +569,9 @@ pub unsafe fn apply_patch(mut table: JumpTable) -> Result<(), PatchError> {
         }
 
         // Start the fetch of the module
-        let response = web_sys::window().unwrap_throw().fetch_with_str(&path);
+        let response = web_sys::window()
+            .unwrap_throw()
+            .fetch_with_str(&format!("http://127.0.0.1:8080{}", path));
 
         // Wait for the fetch to complete - we need the wasm module size in bytes to reserve in the memory
         let response: web_sys::Response = JsFuture::from(response).await.unwrap().unchecked_into();
