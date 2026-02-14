@@ -3,6 +3,8 @@
 //! This sets up a websocket connection to the devserver and handles messages from it.
 //! We also set up a little recursive timer that will attempt to reconnect if the connection is lost.
 
+use dioxus_cli_config::get_meta_contents;
+use dioxus_cli_config::DEV_FORCED_ORIGIN;
 use dioxus_devtools::{DevserverMsg, HotReloadMsg};
 use futures_channel::mpsc::{unbounded, UnboundedReceiver, UnboundedSender};
 use js_sys::JsString;
@@ -42,21 +44,14 @@ pub(crate) fn init(config: &crate::Config) -> UnboundedReceiver<HotReloadMsg> {
     rx
 }
 
-#[wasm_bindgen]
-extern "C" {
-    // Getters can only be declared on classes, so we need a fake type to declare it
-    // on.
-    #[wasm_bindgen]
-    type meta;
-
-    #[wasm_bindgen(js_namespace = import, static_method_of = meta, getter)]
-    fn url() -> String;
-}
-
 fn make_ws(tx: UnboundedSender<HotReloadMsg>, poll_interval: i32, reload: bool) {
     // Get the location of the devserver, using the current location plus the /_dioxus path
     // The idea here being that the devserver is always located on the /_dioxus behind a proxy
-    let url = Url::new(&meta::url()).unwrap();
+    let url = Url::new(
+        &get_meta_contents(DEV_FORCED_ORIGIN)
+            .unwrap_or_else(|| web_sys::window().unwrap().location().href().unwrap()),
+    )
+    .unwrap();
     let url = format!(
         "{protocol}//{host}/_dioxus?build_id={build_id}",
         protocol = match url.protocol() {

@@ -329,6 +329,7 @@ use anyhow::{bail, Context};
 use cargo_metadata::diagnostic::Diagnostic;
 use cargo_toml::{Profile, Profiles, StripSetting};
 use depinfo::RustcDepInfo;
+use dioxus_cli_config::DEV_FORCED_ORIGIN;
 use dioxus_cli_config::{format_base_path_meta_element, PRODUCT_NAME_ENV};
 use dioxus_cli_config::{APP_TITLE_ENV, ASSET_ROOT_ENV};
 use dioxus_cli_opt::{process_file_to, AssetManifest};
@@ -5233,7 +5234,7 @@ impl BuildRequest {
 globalThis.__wasm_split_main_initSync = initSync;
 
 // Actually perform the load
-__wbg_init({{module_or_path: "{}/{}/{wasm_path}"}}).then((wasm) => {{
+__wbg_init({{module_or_path: "/{}/{wasm_path}"}}).then((wasm) => {{
     // assign this module to be accessible globally
     globalThis.__dx_mainWasm = wasm;
     globalThis.__dx_mainInit = __wbg_init;
@@ -5245,7 +5246,6 @@ __wbg_init({{module_or_path: "{}/{}/{wasm_path}"}}).then((wasm) => {{
     }}
 }});
 "#,
-            self.forced_origin.as_ref().unwrap_or(&String::default()),
             self.base_path_or_default(),
         )?;
 
@@ -6156,6 +6156,11 @@ __wbg_init({{module_or_path: "{}/{}/{wasm_path}"}}).then((wasm) => {{
             if let Some(base_path) = &self.trimmed_base_path() {
                 head_resources.push_str(&format_base_path_meta_element(base_path));
             }
+            if let Some(forced_origin) = &self.forced_origin {
+                head_resources.push_str(&format!(
+                    r#"<meta name="{DEV_FORCED_ORIGIN}" content="{forced_origin}">"#
+                ));
+            }
         }
 
         // Inject any resources from manganis into the head
@@ -6221,9 +6226,8 @@ __wbg_init({{module_or_path: "{}/{}/{wasm_path}"}}).then((wasm) => {{
         *html = html.replace(
             "</body",
             &format!(
-                r#"<script type="module" async src="{}/{}/{}"></script>
+                r#"<script type="module" async src="/{}/{}"></script>
             </body"#,
-                self.forced_origin.as_ref().unwrap_or(&String::default()),
                 self.base_path_or_default(),
                 self.bundled_js_path(assets)
             ),

@@ -481,18 +481,6 @@ impl<A, M, F: HotFunction<A, M>> HotFn<A, M, F> {
     }
 }
 
-#[cfg(target_arch = "wasm32")]
-#[wasm_bindgen::prelude::wasm_bindgen]
-extern "C" {
-    // Getters can only be declared on classes, so we need a fake type to declare it
-    // on.
-    #[wasm_bindgen]
-    type meta;
-
-    #[wasm_bindgen(js_namespace = import, static_method_of = meta, getter)]
-    fn url() -> String;
-}
-
 /// Apply the patch using a given jump table.
 ///
 /// # Safety
@@ -581,16 +569,7 @@ pub unsafe fn apply_patch(mut table: JumpTable) -> Result<(), PatchError> {
         }
 
         // Start the fetch of the module
-        let response = web_sys::window()
-            .unwrap_throw()
-            .fetch_with_str(&ToString::to_string(
-                &web_sys::Url::new_with_base(
-                    &path,
-                    &ToString::to_string(&web_sys::Url::new(&meta::url()).unwrap().to_string()),
-                )
-                .unwrap()
-                .to_string(),
-            ));
+        let response = web_sys::window().unwrap_throw().fetch_with_str(&path);
 
         // Wait for the fetch to complete - we need the wasm module size in bytes to reserve in the memory
         let response: web_sys::Response = JsFuture::from(response).await.unwrap().unchecked_into();
