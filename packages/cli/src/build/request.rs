@@ -395,6 +395,7 @@ pub(crate) struct BuildRequest {
     pub(crate) keep_names: bool,
     pub(crate) inject_loading_scripts: bool,
     pub(crate) custom_linker: Option<PathBuf>,
+    pub(crate) forced_origin: Option<String>,
     pub(crate) base_path: Option<String>,
     pub(crate) using_dioxus_explicitly: bool,
     pub(crate) apple_entitlements: Option<PathBuf>,
@@ -1031,6 +1032,7 @@ impl BuildRequest {
             should_codesign,
             session_cache_dir,
             skip_assets: args.skip_assets,
+            forced_origin: args.forced_origin.clone(),
             base_path: args.base_path.clone(),
             wasm_split: args.wasm_split,
             debug_symbols: args.debug_symbols,
@@ -5219,7 +5221,7 @@ impl BuildRequest {
 globalThis.__wasm_split_main_initSync = initSync;
 
 // Actually perform the load
-__wbg_init({{module_or_path: "/{}/{wasm_path}"}}).then((wasm) => {{
+__wbg_init({{module_or_path: "{}/{}/{wasm_path}"}}).then((wasm) => {{
     // assign this module to be accessible globally
     globalThis.__dx_mainWasm = wasm;
     globalThis.__dx_mainInit = __wbg_init;
@@ -5231,6 +5233,7 @@ __wbg_init({{module_or_path: "/{}/{wasm_path}"}}).then((wasm) => {{
     }}
 }});
 "#,
+            self.forced_origin.as_ref().unwrap_or(&String::default()),
             self.base_path_or_default(),
         )?;
 
@@ -6206,8 +6209,9 @@ __wbg_init({{module_or_path: "/{}/{wasm_path}"}}).then((wasm) => {{
         *html = html.replace(
             "</body",
             &format!(
-                r#"<script type="module" async src="/{}/{}"></script>
+                r#"<script type="module" async src="{}/{}/{}"></script>
             </body"#,
+                self.forced_origin.as_ref().unwrap_or(&String::default()),
                 self.base_path_or_default(),
                 self.bundled_js_path(assets)
             ),

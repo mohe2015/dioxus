@@ -119,6 +119,10 @@ pub(crate) struct TargetArgs {
     #[arg(long, default_missing_value=Some("".into()), num_args=0..=1)]
     pub(crate) device: Option<String>,
 
+    /// The forced origin that will be used instead of the requesting origin.
+    #[clap(long, help_heading = HELP_HEADING)]
+    pub(crate) forced_origin: Option<String>,
+
     /// The base path the build will fetch assets relative to. This will override the
     /// base path set in the `dioxus` config.
     #[clap(long, help_heading = HELP_HEADING)]
