@@ -11,6 +11,7 @@ use std::time::Duration;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use wasm_bindgen::{closure::Closure, JsValue};
+use web_sys::Url;
 use web_sys::{window, CloseEvent, MessageEvent, WebSocket};
 
 const POLL_INTERVAL_MIN: i32 = 250;
@@ -41,17 +42,28 @@ pub(crate) fn init(config: &crate::Config) -> UnboundedReceiver<HotReloadMsg> {
     rx
 }
 
+#[wasm_bindgen]
+extern "C" {
+    // Getters can only be declared on classes, so we need a fake type to declare it
+    // on.
+    #[wasm_bindgen]
+    type meta;
+
+    #[wasm_bindgen(js_namespace = import, static_method_of = meta, getter)]
+    fn url() -> String;
+}
+
 fn make_ws(tx: UnboundedSender<HotReloadMsg>, poll_interval: i32, reload: bool) {
     // Get the location of the devserver, using the current location plus the /_dioxus path
     // The idea here being that the devserver is always located on the /_dioxus behind a proxy
-    let location = web_sys::window().unwrap().location();
+    let url = Url::new(&meta::url()).unwrap();
     let url = format!(
         "{protocol}//{host}/_dioxus?build_id={build_id}",
-        protocol = match location.protocol().unwrap() {
+        protocol = match url.protocol() {
             prot if prot == "https:" => "wss:",
             _ => "ws:",
         },
-        host = location.host().unwrap(),
+        host = url.host(),
         build_id = dioxus_cli_config::build_id(),
     );
 
