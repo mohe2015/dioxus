@@ -5200,6 +5200,18 @@ impl BuildRequest {
             )?;
         }
 
+        if self.is_dev_build() {
+            std::fs::write(
+                self.root_dir().join("dev.css"),
+                include_str!("../../assets/web/dev.css"),
+            )?;
+
+            std::fs::write(
+                self.root_dir().join("dev.js"),
+                include_str!("../../assets/web/dev.js"),
+            )?;
+        }
+
         // Write the index.html file with the pre-configured contents we got from pre-rendering
         self.write_index_html(assets)?;
 
@@ -6220,8 +6232,12 @@ __wbg_init({{module_or_path: "{}/{}/{wasm_path}"}}).then((wasm) => {{
 
     /// Replace any special placeholders in the HTML with resolved values
     fn replace_template_placeholders(&self, html: &mut String, wasm_path: &str, js_path: &str) {
-        let base_path = self.base_path_or_default();
-        *html = html.replace("{base_path}", base_path);
+        let base_path_with_forced_origin = format!(
+            "{}/{}",
+            self.forced_origin.as_ref().unwrap_or(&String::default()),
+            self.base_path_or_default(),
+        );
+        *html = html.replace("{base_path}", &base_path_with_forced_origin);
 
         let app_name = &self.executable_name();
 
