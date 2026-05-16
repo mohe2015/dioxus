@@ -292,7 +292,7 @@ pub(crate) fn invalidate_browser_asset_cache() {
 fn playground(tx: UnboundedSender<HotReloadMsg>) {
     let window = web_sys::window().expect("this code should be running in a web context");
 
-    let binding = Closure::<dyn FnMut(MessageEvent)>::new(move |e: MessageEvent| {
+    let binding = Closure::<dyn FnMut(MessageEvent)>::own_aborting(move |e: MessageEvent| {
         let Ok(text) = e.data().dyn_into::<JsString>() else {
             return;
         };
