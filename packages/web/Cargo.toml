@@ -39,7 +39,7 @@ serde-wasm-bindgen = { version = "0.6.5", optional = true }
 ciborium = { workspace = true, optional = true }
 gloo-timers = { workspace = true, optional = true, features = ["futures"] }
 send_wrapper = { workspace = true, features = ["futures"] }
-wasm-streams = "0.4.2"
+wasm-streams = { git = "https://github.com/guybedford/wasm-streams.git", rev = "c4035580f31a1f3c907d361d8e43ebac6c738a26" }
 
 [dependencies.web-sys]
 version = "0.3.77"
