@@ -3908,7 +3908,7 @@ dependencies = [
  "dioxus-cli-config",
  "tracing",
  "tracing-subscriber",
- "tracing-wasm",
+ "wasm-tracing",
 ]
 
 [[package]]
@@ -4062,8 +4062,8 @@ dependencies = [
  "dioxus",
  "serde_json",
  "tracing",
- "tracing-wasm",
  "wasm-bindgen",
+ "wasm-tracing",
  "web-sys",
 ]
 
@@ -4325,11 +4325,11 @@ dependencies = [
  "serde-wasm-bindgen",
  "serde_json",
  "tracing",
- "tracing-wasm",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "wasm-bindgen-test",
  "wasm-streams 0.5.0",
+ "wasm-tracing",
  "web-sys",
 ]
 
@@ -13876,17 +13876,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tracing-wasm"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4575c663a174420fa2d78f4108ff68f65bf2fbb7dd89f33749b6e826b3626e07"
-dependencies = [
- "tracing",
- "tracing-subscriber",
- "wasm-bindgen",
-]
-
-[[package]]
 name = "tray-icon"
 version = "0.21.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -14696,6 +14685,17 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
+]
+
+[[package]]
+name = "wasm-tracing"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "11ab253baf6d3772bbdb37a0966b67d37ab80657ccd1a084b4d7b3de3232375d"
+dependencies = [
+ "tracing",
+ "tracing-subscriber",
+ "wasm-bindgen",
 ]
 
 [[package]]
