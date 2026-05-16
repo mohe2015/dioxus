@@ -284,7 +284,7 @@ uuid = "1.17.0"
 convert_case = "0.8.0"
 tungstenite = { version = "0.28.0" }
 tokio-tungstenite = { version = "0.28.0" }
-gloo-timers = { git = "https://github.com/ranile/gloo.git", rev = "552bedcb2ca8c384edc8f66d6bdda6a5e7ec3697" }
+gloo-timers = "0.3.0"
 internment = { version = "0.8.6" }
 proc-macro2-diagnostics = { version = "0.10", default-features = false }
 env_logger = "0.11.8"
