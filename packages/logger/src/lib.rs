@@ -82,7 +82,7 @@ pub fn init(level: Level) -> Result<(), SetGlobalDefaultError> {
 
     #[cfg(target_arch = "wasm32")]
     {
-        wasm_tracing::set_as_global_default();
+        wasm_tracing::set_as_global_default()
     }
 
     #[cfg(not(target_arch = "wasm32"))]
