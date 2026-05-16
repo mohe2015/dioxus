@@ -108,6 +108,7 @@ devtools = [
   "web-sys/MessageEvent",
   "web-sys/WebSocket",
   "web-sys/Location",
+  "web-sys/Url",
   "dep:serde_json",
   "dep:serde",
   "dioxus-core/serialize",
