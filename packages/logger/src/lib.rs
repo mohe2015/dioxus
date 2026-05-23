@@ -82,7 +82,10 @@ pub fn init(level: Level) -> Result<(), SetGlobalDefaultError> {
 
     #[cfg(target_arch = "wasm32")]
     {
-        wasm_tracing::try_set_as_global_default()
+        let config = WasmLayerConfig::new()
+            .set_max_level(Level::ERROR)
+            .to_owned();
+        let _ = wasm_tracing::set_as_global_default_with_config(config);
     }
 
     #[cfg(not(target_arch = "wasm32"))]
