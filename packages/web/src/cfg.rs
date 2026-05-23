@@ -98,7 +98,7 @@ impl Default for Config {
             root: ConfigRoot::RootName("main".to_string()),
             #[cfg(feature = "document")]
             history: None,
-            panic_hook: true,
+            panic_hook: false,
         }
     }
 }
