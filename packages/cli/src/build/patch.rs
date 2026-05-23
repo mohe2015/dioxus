@@ -202,7 +202,8 @@ impl HotpatchModuleCache {
             // We need to take an extra step to account for merged functions by mapping function index
             // to a set of functions that point to the same index.
             _ if triple.architecture == Architecture::Wasm32 => {
-                let bytes = std::fs::read(original)?;
+                let info = original.to_string_lossy().into_owned();
+                let bytes = std::fs::read(original).context(info)?;
                 let ParsedModule {
                     module, symbols, ..
                 } = parse_module_with_ids(&bytes)?;
