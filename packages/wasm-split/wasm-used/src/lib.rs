@@ -134,6 +134,7 @@ impl Used {
                 ExportItem::Table(t) => stack.push_table(t),
                 ExportItem::Memory(m) => stack.push_memory(m),
                 ExportItem::Global(g) => stack.push_global(g),
+                ExportItem::Tag(_) => todo!(),
             };
         }
 
@@ -240,6 +241,7 @@ impl Used {
                     }
                     GlobalKind::Local(ConstExpr::Value(_))
                     | GlobalKind::Local(ConstExpr::RefNull(_)) => {}
+                    GlobalKind::Local(ConstExpr::Extended(_)) => todo!(),
                 }
             }
 
@@ -266,7 +268,7 @@ impl Used {
                         stack.push_func(*f, Location::Element { element: e.id() });
                     });
                 }
-                if let ElementItems::Expressions(RefType::Funcref, items) = &e.items {
+                if let ElementItems::Expressions(RefType::FUNCREF, items) = &e.items {
                     for item in items {
                         match item {
                             ConstExpr::Global(g) => {

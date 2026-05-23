@@ -449,7 +449,7 @@ fn find_wasm_symbol_offsets<'a, R: ReadRef<'a>>(
         };
 
         let global_data = module.globals.get(global);
-        let walrus::GlobalKind::Local(pointer) = global_data.kind else {
+        let walrus::GlobalKind::Local(ref pointer) = global_data.kind else {
             continue;
         };
 
