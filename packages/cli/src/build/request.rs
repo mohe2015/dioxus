@@ -1896,6 +1896,8 @@ impl BuildRequest {
                 cargo_args.push("-Clink-arg=--growable-table".into());
                 cargo_args.push("-Clink-arg=--export-table".into());
                 cargo_args.push("-Clink-arg=--export-memory".into());
+                // Side modules must share the base module's Rust panic tag.
+                cargo_args.push("-Clink-arg=--export-if-defined=__cpp_exception".into());
                 cargo_args.push("-Clink-arg=--emit-relocs".into());
                 cargo_args.push("-Clink-arg=--export=__stack_pointer".into());
                 cargo_args.push("-Clink-arg=--export=__heap_base".into());

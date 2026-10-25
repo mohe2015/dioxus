@@ -762,7 +762,9 @@ pub fn create_wasm_jump_table(patch: &Path, cache: &HotpatchModuleCache) -> Resu
     // The ifunc_count will be passed to the dynamic loader so it can allocate the right amount of space
     // in the indirect function table when loading the patch.
     let name_to_ifunc_new = collect_func_ifuncs(&new);
-    let ifunc_count = name_to_ifunc_new.len() as u64;
+    // The name map omits unnamed slots and deduplicates repeated entries.
+    // wasm-ld already records the required capacity in the imported table.
+    let ifunc_count = new.tables.get(ifunc_table_initializer).initial;
     let mut map = AddressMap::default();
     for (name, idx) in name_to_ifunc_new.iter() {
         // Find the corresponding ifunc in the old module by name
